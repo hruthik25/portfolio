@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ name }} - Portfolio</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background: linear-gradient(135deg, #1a237e 0%, #1e3a8a 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .project-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .project-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        .metrics-badge {
+            background: rgba(79, 70, 229, 0.2);
+            border-radius: 9999px;
+            padding: 0.25rem 1rem;
+            font-size: 0.875rem;
+            color: #fff;
+            border: 1px solid rgba(79, 70, 229, 0.3);
+        }
+        .timeline-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .timeline-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+        .tech-tag {
+            background: rgba(59, 130, 246, 0.2);
+            border-radius: 9999px;
+            padding: 0.25rem 1rem;
+            font-size: 0.875rem;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        .tech-tag:hover {
+            background: rgba(59, 130, 246, 0.3);
+        }
+        .nav-link {
+            color: #fff;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .nav-link:hover {
+            opacity: 1;
+            color: #60A5FA;
+        }
+        #skills-chart {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1rem;
+        }
+        .section-title {
+            background: linear-gradient(45deg, #60A5FA, #93C5FD);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0;
+        }
+        .achievement-item::before {
+            content: "→";
+            color: #60A5FA;
+        }
+        .company-badge {
+            background: linear-gradient(135deg, #4F46E5 0%, #60A5FA 100%);
+            padding: 0.25rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        .hero-stat {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .hero-stat:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 px-4 py-4 bg-opacity-90 backdrop-blur-md bg-gray-900">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-blue-400">{{ name }}</h1>
+            <div class="space-x-8">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#experience" class="nav-link">Experience</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="mailto:{{ email }}" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="min-h-screen flex items-center px-4" id="about">
+        <div class="container mx-auto pt-20">
+            <h1 class="text-7xl font-bold mb-6 section-title">{{ name }}</h1>
+            <p class="text-3xl text-gray-300 mb-8">{{ title }}</p>
+            
+            <div class="max-w-3xl">
+                <p class="text-xl text-gray-300 leading-relaxed mb-8">
+                    {{ about_me }}
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="hero-stat p-4">
+                        <h3 class="font-bold text-blue-400">Education</h3>
+                        <p class="text-sm">Master's in Data Science</p>
+                        <p class="text-xs text-gray-400">UMass Dartmouth</p>
+                    </div>
+                    <div class="hero-stat p-4">
+                        <h3 class="font-bold text-blue-400">Expertise</h3>
+                        <p class="text-sm">Healthcare & Aviation Analytics</p>
+                        <p class="text-xs text-gray-400">Data Science | AI</p>
+                    </div>
+                    <div class="hero-stat p-4">
+                        <h3 class="font-bold text-blue-400">Location</h3>
+                        <p class="text-sm">{{ location }}</p>
+                        <p class="text-xs text-gray-400">Available for Remote Work</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <a href="#projects" 
+                       class="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-400 rounded-full 
+                              hover:from-blue-500 hover:to-blue-300 transition-all duration-300 
+                              font-semibold text-white">
+                        View Projects
+                    </a>
+                    <a href="mailto:{{ email }}" 
+                       class="px-6 py-3 border border-blue-400 rounded-full 
+                              hover:bg-blue-400/20 transition-all duration-300 
+                              font-semibold text-white">
+                        Get in Touch
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Projects Section -->
+    <section class="py-20 px-4" id="projects">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold mb-12 section-title">Projects</h2>
+            <div class="grid md:grid-cols-2 gap-8" id="projects-container"></div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="py-20 px-4" id="experience">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold mb-12 section-title">Experience</h2>
+            <div class="space-y-6" id="experience-container"></div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="py-20 px-4" id="skills">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold mb-12 section-title">Skills</h2>
+            <div id="skills-chart" class="w-full h-[600px]"></div>
+        </div>
+    </section>
+
+    <script>
+        // Load Projects
+        fetch('/api/projects')
+            .then(response => response.json())
+            .then(projects => {
+                const projectsContainer = document.getElementById('projects-container');
+                projects.forEach(project => {
+                    const projectElement = document.createElement('div');
+                    projectElement.className = 'project-card p-6';
+                    projectElement.innerHTML = `
+                        <h3 class="text-xl font-bold mb-3">${project.title}</h3>
+                        <p class="text-gray-300 mb-4">${project.description}</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            ${Object.entries(project.metrics).map(([key, value]) => 
+                                `<span class="metrics-badge">${key}: ${value}</span>`
+                            ).join('')}
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            ${project.technologies.map(tech => 
+                                `<span class="tech-tag">${tech}</span>`
+                            ).join('')}
+                        </div>
+                    `;
+                    projectsContainer.appendChild(projectElement);
+                });
+            });
+
+        // Load Experience
+        fetch('/api/experience')
+            .then(response => response.json())
+            .then(experiences => {
+                const experienceContainer = document.getElementById('experience-container');
+                experiences.forEach(exp => {
+                    const expElement = document.createElement('div');
+                    expElement.className = 'timeline-card p-6';
+                    expElement.innerHTML = `
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold mb-2">${exp.role}</h3>
+                                <span class="company-badge mb-2 inline-block">${exp.company}</span>
+                            </div>
+                            <span class="text-gray-400 md:text-right">${exp.period}</span>
+                        </div>
+                        <p class="text-gray-300 mb-4">${exp.description}</p>
+                        <div class="space-y-2">
+                            ${exp.achievements.map(achievement => `
+                                <div class="achievement-item">
+                                    <span>${achievement}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    experienceContainer.appendChild(expElement);
+                });
+            });
+
+        // Load Skills Chart
+        fetch('/api/skill-chart')
+            .then(response => response.json())
+            .then(chartData => {
+                Plotly.newPlot('skills-chart', chartData.data, {
+                    ...chartData.layout,
+                    paper_bgcolor: 'rgba(0,0,0,0)',
+                    plot_bgcolor: 'rgba(0,0,0,0)',
+                    font: { color: '#fff' }
+                });
+            });
+    </script>
+</body>
+</html>
